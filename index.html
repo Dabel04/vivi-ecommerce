@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mixtas — Replica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="logo">Mixtas</div>
+    <nav class="menu">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Pages</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact Us</a>
+    </nav>
+    <div class="icons">
+      <div class="small">🔍</div>
+      <div class="small">♡</div>
+      <div class="small">👤</div>
+      <div class="badge">0</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="label">URBAN EDGE</div>
+        <h1>Jackets for the<br/>Modern Man</h1>
+        <p class="small">Discover a fresh selection of jackets — crafted for contemporary comfort and style.</p>
+        <a href="#" class="cta">Discovery Now</a>
+      </div>
+      <!-- right side intentionally left to show background image -->
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>New Arrivals</h2>
+    <div class="tabs">
+      <div>WOMEN</div>
+      <div>MEN</div>
+      <div>SHOES</div>
+      <div>BAGS</div>
+      <div>ACCESSORIES</div>
+    </div>
+
+    <div class="grid">
+      <!-- 8 product cards (use the same uploaded image as placeholder thumbnails) -->
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">adidas X Pop Polo shirt, navy / blue</span></div>
+        <div class="price">$69.99</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">adidas X Pop TRX Vintage, navy / white</span></div>
+        <div class="price">$69.99</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">adidas X Pop Beckenbauer Track Jacket</span></div>
+        <div class="price">$129.00</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">adidas X Pop Classic t-shirt, grey / navy</span></div>
+        <div class="price">$120.00</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">adidas X Pop SL Cap, navy / white</span></div>
+        <div class="price">$59.00</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">Butter Yard Pullover Hood, denim</span></div>
+        <div class="price">$120.00</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">Parra Rug Pull t-shirt, white</span></div>
+        <div class="price">$60.00</div>
+      </div>
+
+      <div class="card">
+        <div class="img"><img src="/mnt/data/b15db8a1b984ca496f627fa54c5e81c9.jpg" alt="product"></div>
+        <div class="title">JACKETS<br><span class="small">Carhartt L/S DeadKebab Knock Knock Sweat</span></div>
+        <div class="price">$130.00</div>
+      </div>
+    </div>
+
+    <div class="promo-wrap">
+      <div class="promo-left">
+        <div class="promo" style="background:#f4f6f7">
+          <h3>Where Dreams<br>Meet Couture</h3>
+          <p class="small">Ethereal Elegance</p>
+          <a class="btn" href="#">Shop Now</a>
+        </div>
+        <div class="promo" style="background:#fff">
+          <h3>Enchanting Styles<br>for Every Woman</h3>
+          <p class="small">Radiant Revere</p>
+          <a class="btn" href="#">Shop Now</a>
+        </div>
+      </div>
+
+      <div class="promo" style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+        <h3>Trendsetting Bags for Her</h3>
+        <div style="font-size:48px;font-weight:700;margin:12px 0">50%</div>
+        <a class="btn" href="#">Shop Now</a>
+      </div>
+    </div>
+
+  </section>
+
+  <footer style="text-align:center;padding:36px 0;color:#888">
+    <div class="small">© 2025 Mixtas — Replica example built with HTML/CSS/JS</div>
+  </footer>
+
+  <script>
+    // small interactivity: update cart number on clicking product
+    document.querySelectorAll('.card').forEach((c,i)=>{
+      c.addEventListener('click',()=>{
+        const badge = document.querySelector('.badge');
+        badge.textContent = parseInt(badge.textContent||'0') + 1;
+        c.style.outline = '2px solid rgba(0,0,0,0.06)';
+        setTimeout(()=>c.style.outline='none',500);
+      })
+    });
+  </script>
+</body>
+</html>
