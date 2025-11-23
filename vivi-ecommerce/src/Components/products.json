@@ -1,0 +1,51 @@
+[ 
+    { 
+    "id": 1, 
+    "name": "Adidas X Pop Polo Shirt", 
+    "price": 69.99, 
+    "image": "./img/f3.jpg", 
+    "description": "adidas X Pop Polo shirt, navy / blue" 
+  },
+    { 
+      "id": 2, 
+      "name": "Adidas X Pop TRX Vintage", 
+      "price": 69.99, 
+      "image": "./img/f2.jpg", 
+      "description": "adidas X Pop TRX Vintage, navy / white" 
+    },
+    { 
+      "id": 3, 
+      "name": "Adidas X Pop Beckenbauer Track Jacket", 
+      "price": 129.00, 
+      "image": "./img/f1.jpg", 
+      "description": "adidas X Pop Beckenbauer Track Jacket" },
+    { 
+      "id": 4, 
+      "name": "Adidas X Pop Classic T-shirt", 
+      "price": 120.00, 
+      "image": "", 
+      "description": "adidas X Pop Classic t-shirt, grey / navy" },
+    { 
+      "id": 5, "name": "Adidas X Pop SL Cap", 
+      "price": 59.00, 
+      "image": "", 
+      "description": "adidas X Pop SL Cap, navy / white" },
+    { 
+      "id": 6, 
+      "name": "Butter Yard Pullover Hood", 
+      "price": 120.00, 
+      "image": "", 
+      "description": "Butter Yard Pullover Hood, denim" },
+    { 
+      "id": 7, 
+      "name": "Parra Rug Pull T-shirt", 
+      "price": 60.00, 
+      "image": "", 
+      "description": "Parra Rug Pull t-shirt, white" },
+   { 
+    "id": 8, 
+    "name": "Carhartt L/S Sweat", 
+    "price": 130.00, 
+    "image": "", 
+    "description": "Carhartt L/S DeadKebab Knock Knock Sweat" }
+    ]
