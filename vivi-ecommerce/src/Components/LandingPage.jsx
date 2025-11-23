@@ -7,116 +7,258 @@ import f3 from './img/f3.jpg';
 function LandingPage() {
   return (
     <>
-    <header className="nav">
-      <div className="logo">Mixtas</div>
-      <nav className="menu">
-        <a href="#">Home</a>
-        <a href="#">Shop</a>
-        <a href="#">Pages</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact Us</a>
-      </nav>
-      <div className="icons">
-        <div className="small">🔍</div>
-        <div className="small">♡</div>
-        <div className="small">👤</div>
-        <div className="badge">0</div>
-      </div>
-   </header>
-
-   
-  <section className="hero">
-    <div className="hero-inner">
-      <div className="hero-left">
-        <div className="label">URBAN EDGE</div>
-        <h1>Jackets for the<br/>Modern Man</h1>
-        <p className="small">Discover a fresh selection of jackets — crafted for contemporary comfort and style.</p>
-        <a href="#" className="cta">Discovery Now</a>
-      </div>
-    </div>
-  </section>
-
-  <section className="section">
-    <h2>New Arrivals</h2>
-    <div className="tabs">
-      <div>WOMEN</div>
-      <div>MEN</div>
-      <div>SHOES</div>
-      <div>BAGS</div>
-      <div>ACCESSORIES</div>
-    </div>
-
-    <div className="grid">
-      <div className="card">
-        <div className="img"><img src={f3}/></div>
-        <div className="title">JACKETS<span className="small">adidas X Pop Polo shirt, navy / blue</span></div>
-        <div className="price">$69.99</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src={f2}/></div>
-        <div className="title">JACKETS<span className="small">adidas X Pop TRX Vintage, navy / white</span></div>
-        <div className="price">$69.99</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src={f1}/></div>
-        <div className="title">JACKETS<span className="small">adidas X Pop Beckenbauer Track Jacket</span></div>
-        <div className="price">$129.00</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src="/images/logo.png" alt="My logo" className="logo-img" /></div>
-        <div className="title">JACKETS<span className="small">adidas X Pop ClassNameic t-shirt, grey / navy</span></div>
-        <div className="price">$120.00</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src="/images/logo.png" alt="My logo" className="logo-img" /></div>
-        <div className="title">JACKETS<span className="small">adidas X Pop SL Cap, navy / white</span></div>
-        <div className="price">$59.00</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src="/images/logo.png" alt="My logo" className="logo-img" /></div>
-        <div className="title">JACKETS<span className="small">Butter Yard Pullover Hood, denim</span></div>
-        <div className="price">$120.00</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src="/images/logo.png" alt="My logo" className="logo-img" /></div>
-        <div className="title">JACKETS<span className="small">Parra Rug Pull t-shirt, white</span></div>
-        <div className="price">$60.00</div>
-      </div>
-
-      <div className="card">
-        <div className="img"><img src="/images/logo.png" alt="My logo" className="logo-img" /></div>
-        <div className="title">JACKETS<span className="small">Carhartt L/S DeadKebab Knock Knock Sweat</span></div>
-        <div className="price">$130.00</div>
-      </div>
-    </div>
-
-    <div className="promo-wrap">
-      <div className="promo-left">
-        <div className="promo" style={{background:"#f4f6f7"}}>
-          <h3>Where Dreams Meet Couture</h3>
-          <p className="small">Ethereal Elegance</p>
-          <a className="btn" href="#">Shop Now</a>
+        {/* Cart Sidebar  */}
+           {/* Cart Sidebar */}
+    <div id="cartOverlay" class="cart-overlay">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h3>Your Cart (<span id="cartCount">0</span>)</h3>
+                <button class="close-cart" onclick="closeCart()">×</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <p class="empty-cart">Your cart is empty</p>
+            </div>
+            
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    Proceed to Checkout
+                </button>
+            </div>
         </div>
-        <div className="promo" style={{background:"#fff"}}>
-          <h3>Enchanting Styles for Every Woman</h3>
-          <p className="small">Radiant Revere</p>
-          <a className="btn" href="#">Shop Now</a>
-        </div>
-      </div>
-
-      <div className="promo" style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-        <h3>Trendsetting Bags for Her</h3>
-        <div style={{fontSize:"48px",fontWeight:"700",margin:"12px 0"}}>50%</div>
-        <a className="btn" href="#">Shop Now</a>
-      </div>
     </div>
-  </section>
+
+    {/* Quick View Modal */}
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Product details will be injected here
+            </div>
+        </div>
+    </div>
+
+    <header class="nav">
+        <div class="logo">Mixtas</div>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="menu" id="mainMenu">
+            <a href="#" class="active">Home</a>
+            <a href="#shop">Shop</a>
+            <a href="#new-arrivals">New Arrivals</a>
+            <a href="#blog">Blog</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
+        
+        <div class="icons">
+            <div class="small icon-btn search-btn" onclick="toggleSearch()">🔍</div>
+            <div class="small icon-btn favorite-btn" onclick="toggleFavorites()">
+                ♡ <span class="favorite-count">0</span>
+            </div>
+            <div class="small icon-btn">👤</div>
+            <div class="badge icon-btn cart-btn" onclick="openCart()">0</div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <input type="text" placeholder="Search products..." id="searchInput">
+            <button class="search-close" onclick="toggleSearch()">×</button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <nav class="mobile-menu">
+            <a href="#" class="active" onclick="closeMobileMenu()">Home</a>
+            <a href="#shop" onclick="closeMobileMenu()">Shop</a>
+            <a href="#new-arrivals" onclick="closeMobileMenu()">New Arrivals</a>
+            <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+            <a href="#contact" onclick="closeMobileMenu()">Contact Us</a>
+            
+            <div class="mobile-menu-icons">
+                <div class="icon-btn" onclick="toggleSearch(); closeMobileMenu();">🔍 Search</div>
+                <div class="icon-btn" onclick="toggleFavorites(); closeMobileMenu();">♡ Favorites</div>
+                <div class="icon-btn" onclick="closeMobileMenu();">👤 Account</div>
+                <div class="icon-btn" onclick="openCart(); closeMobileMenu();">🛒 Cart (<span class="cart-badge-mobile">0</span>)</div>
+            </div>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="label">URBAN EDGE</div>
+                <h1>Jackets for the<br>Modern Man</h1>
+                <p class="small">Discover a fresh selection of jackets — crafted for contemporary comfort and style.</p>
+                <a href="#new-arrivals" class="cta">Discover Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="new-arrivals">
+        <h2>New Arrivals</h2>
+        
+        <!-- Category Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-category="all">ALL</div>
+            <div class="tab" data-category="women">WOMEN</div>
+            <div class="tab" data-category="men">MEN</div>
+            <div class="tab" data-category="shoes">SHOES</div>
+            <div class="tab" data-category="bags">BAGS</div>
+            <div class="tab" data-category="accessories">ACCESSORIES</div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid">
+            <div class="card" data-category="men">
+                <div class="img">
+                    <img src="./img/f3.jpg" alt="Adidas X Pop Polo Shirt">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">adidas X Pop Polo shirt, navy / blue</span></div>
+                <div class="price">$69.99</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(1)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(1)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="men">
+                <div class="img">
+                    <img src="./img/f2.jpg" alt="Adidas X Pop TRX Vintage">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">adidas X Pop TRX Vintage, navy / white</span></div>
+                <div class="price">$69.99</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(2)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(2)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="men">
+                <div class="img">
+                    <img src="./img/f1.jpg" alt="Adidas X Pop Beckenbauer Track Jacket">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">adidas X Pop Beckenbauer Track Jacket</span></div>
+                <div class="price">$129.00</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(3)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(3)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="women">
+                <div class="img">
+                    <div class="skeleton" style="width:100%;height:140px;"></div>
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">adidas X Pop Classic t-shirt, grey / navy</span></div>
+                <div class="price">$120.00</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(4)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(4)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="accessories">
+                <div class="img">
+                    <div class="skeleton" style="width:100%;height:140px;"></div>
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">adidas X Pop SL Cap, navy / white</span></div>
+                <div class="price">$59.00</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(5)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(5)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="women">
+                <div class="img">
+                    <div class="skeleton" style="width:100%;height:140px;"></div>
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">Butter Yard Pullover Hood, denim</span></div>
+                <div class="price">$120.00</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(6)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(6)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="men">
+                <div class="img">
+                    <div class="skeleton" style="width:100%;height:140px;"></div>
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                <div class="sale-badge">SALE</div>
+                </div>
+                <div class="title">JACKETS<span class="small">Parra Rug Pull t-shirt, white</span></div>
+                <div class="price">$60.00 <span class="original-price">$80.00</span></div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(7)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(7)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="men">
+                <div class="img">
+                    <div class="skeleton" style="width:100%;height:140px;"></div>
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">♡</button>
+                </div>
+                <div class="title">JACKETS<span class="small">Carhartt L/S DeadKebab Knock Knock Sweat</span></div>
+                <div class="price">$130.00</div>
+                <div class="card-actions">
+                    <button class="quick-view-btn" onclick="quickView(8)">Quick View</button>
+                    <button class="add-to-cart" onclick="addToCart(8)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promotional Banners -->
+        <div class="promo-wrap">
+            <div class="promo-left">
+                <div class="promo" style="background:#f8f5e6">
+                    <h3>Where Dreams Meet Couture</h3>
+                    <p class="small">Ethereal Elegance</p>
+                    <a class="btn" href="#shop">Shop Now</a>
+                </div>
+                <div class="promo" style="background:#fffcdc">
+                    <h3>Enchanting Styles for Every Woman</h3>
+                    <p class="small">Radiant Revere</p>
+                    <a class="btn" href="#shop">Shop Now</a>
+                </div>
+            </div>
+
+            <div class="promo promo-large" style="background:#f0edd9">
+                <h3>Trendsetting Bags for Her</h3>
+                <div class="discount-badge">50%</div>
+                <a class="btn" href="#shop">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to get special offers, free giveaways, and new arrivals</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
     </>
   )
 }
