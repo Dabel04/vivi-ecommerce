@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Mixtas</title>
+    <link rel="stylesheet" href="./vivi-ecommerce/src/Components/style.css">
+    <link rel="stylesheet" href="product-details.css">
+</head>
+<body>
+    
+    <!-- Cart Sidebar -->
+    <div id="cartOverlay" class="cart-overlay">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h3>Your Cart (<span id="cartCount">0</span>)</h3>
+                <button class="close-cart" onclick="closeCart()">×</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <p class="empty-cart">Your cart is empty</p>
+            </div>
+            
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="nav">
+        <div class="logo">
+            <a href="index.html" style="color: inherit; text-decoration: none;">Mixtas</a>
+        </div>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Original Navigation Structure -->
+        <nav class="menu">
+            <a href="index.html">Home</a>
+            <a href="index.html#shop">Shop</a>
+            <a href="index.html#new-arrivals">New Arrivals</a>
+            <a href="index.html#blog">Blog</a>
+            <a href="index.html#contact">Contact Us</a>
+        </nav>
+        
+        <div class="icons">
+            <div class="small icon-btn search-btn" onclick="toggleSearch()">🔍</div>
+            <div class="small icon-btn favorite-btn" onclick="toggleFavorites()">
+                ♡ <span class="favorite-count">0</span>
+            </div>
+            <div class="small icon-btn">👤</div>
+            <div class="badge icon-btn cart-btn" onclick="openCart()">0</div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <input type="text" placeholder="Search products..." id="searchInput">
+            <button class="search-close" onclick="toggleSearch()">×</button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <nav class="mobile-menu">
+            <a href="index.html" onclick="closeMobileMenu()">Home</a>
+            <a href="index.html#shop" onclick="closeMobileMenu()">Shop</a>
+            <a href="index.html#new-arrivals" onclick="closeMobileMenu()">New Arrivals</a>
+            <a href="index.html#blog" onclick="closeMobileMenu()">Blog</a>
+            <a href="index.html#contact" onclick="closeMobileMenu()">Contact Us</a>
+            
+            <div class="mobile-menu-icons">
+                <div class="icon-btn" onclick="toggleSearch(); closeMobileMenu();">🔍 Search</div>
+                <div class="icon-btn" onclick="toggleFavorites(); closeMobileMenu();">♡ Favorites (<span class="favorite-count-mobile">0</span>)</div>
+                <div class="icon-btn" onclick="closeMobileMenu();">👤 Account</div>
+                <div class="icon-btn" onclick="openCart(); closeMobileMenu();">🛒 Cart (<span class="cart-badge-mobile">0</span>)</div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Product Details Section -->
+    <section class="product-details-section">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / 
+                <a href="index.html#new-arrivals">New Arrivals</a> / 
+                <span id="breadcrumb-product">Product</span>
+            </div>
+
+            <div class="product-details">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img id="mainProductImage" src="" alt="Product Image">
+                    </div>
+                    <div class="image-thumbnails" id="imageThumbnails">
+                        <!-- Thumbnails will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h1 id="productTitle">Product Title</h1>
+                    <div class="price-section">
+                        <span class="current-price" id="currentPrice">$0.00</span>
+                        <span class="original-price" id="originalPrice"></span>
+                        <span class="discount-badge" id="discountBadge"></span>
+                    </div>
+                    
+                    <div class="rating">
+                        <div class="stars">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+                        <span class="review-count">(128 reviews)</span>
+                    </div>
+
+                    <p class="product-description" id="productDescription">
+                        Product description will appear here...
+                    </p>
+
+                    <!-- Size Selection -->
+                    <div class="option-section">
+                        <label class="option-label">Size:</label>
+                        <div class="size-options" id="sizeOptions">
+                            <!-- Size options will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Color Selection -->
+                    <div class="option-section">
+                        <label class="option-label">Color:</label>
+                        <div class="color-options" id="colorOptions">
+                            <!-- Color options will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div class="option-section">
+                        <label class="option-label">Quantity:</label>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <span class="stock-info" id="stockInfo">In Stock</span>
+                    </div>
+
+                    <!-- Add to Cart -->
+                    <div class="action-buttons">
+                        <button class="add-to-cart-btn" onclick="addToCartFromDetails()">
+                            Add to Cart
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow()">
+                            Buy Now
+                        </button>
+                        <button class="wishlist-btn" onclick="addToWishlist()">
+                            ♡ Add to Wishlist
+                        </button>
+                    </div>
+
+                    <!-- Product Features -->
+                    <div class="product-features">
+                        <div class="feature">
+                            <strong>✓ Free Shipping</strong> on orders over $50
+                        </div>
+                        <div class="feature">
+                            <strong>✓ 30-Day Returns</strong> easy returns policy
+                        </div>
+                        <div class="feature">
+                            <strong>✓ Secure Payment</strong> protected by encryption
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <div class="tab-headers">
+                    <button class="tab-header active" onclick="openTab('description')">Description</button>
+                    <button class="tab-header" onclick="openTab('specifications')">Specifications</button>
+                    <button class="tab-header" onclick="openTab('reviews')">Reviews</button>
+                    <button class="tab-header" onclick="openTab('shipping')">Shipping & Returns</button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="description" class="tab-pane active">
+                        <h3>Product Description</h3>
+                        <p id="fullDescription">Full product description will appear here...</p>
+                    </div>
+
+                    <div id="specifications" class="tab-pane">
+                        <h3>Product Specifications</h3>
+                        <div class="specs-grid" id="specsGrid">
+                            <!-- Specifications will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div id="reviews" class="tab-pane">
+                        <h3>Customer Reviews</h3>
+                        <div class="reviews-summary">
+                            <div class="average-rating">
+                                <div class="rating-score">4.8</div>
+                                <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                                <div class="rating-count">Based on 128 reviews</div>
+                            </div>
+                        </div>
+                        <div class="reviews-list">
+                            <!-- Reviews will be populated dynamically -->
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="reviewer">John D.</span>
+                                    <span class="review-date">March 15, 2024</span>
+                                </div>
+                                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                                <p class="review-text">Excellent quality and perfect fit! Highly recommended.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="shipping" class="tab-pane">
+                        <h3>Shipping & Returns</h3>
+                        <div class="shipping-info">
+                            <h4>Shipping Information</h4>
+                            <ul>
+                                <li>Free standard shipping on orders over $50</li>
+                                <li>Express shipping available for $9.99</li>
+                                <li>Delivery within 3-5 business days</li>
+                                <li>International shipping available</li>
+                            </ul>
+                            
+                            <h4>Return Policy</h4>
+                            <ul>
+                                <li>30-day return policy</li>
+                                <li>Items must be in original condition</li>
+                                <li>Free returns for store credit</li>
+                                <li>Refunds processed within 5 business days</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div class="related-products">
+                <h2>You May Also Like</h2>
+                <div class="related-grid" id="relatedGrid">
+                    <!-- Related products will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Store Features -->
+    <section class="store-features">
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🚚</div>
+                <h4>Free Shipping</h4>
+                <p>Free delivery on orders over $50</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">↩️</div>
+                <h4>Easy Returns</h4>
+                <p>30-day return policy</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <h4>Secure Payment</h4>
+                <p>100% secure payment processing</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💝</div>
+                <h4>Quality Guarantee</h4>
+                <p>Premium quality products</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to get special offers, free giveaways, and new arrivals</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Brand Section -->
+            <div class="footer-brand">
+                <h3>Mixtas</h3>
+                <p>Discover contemporary fashion crafted for modern comfort and style. We bring you the latest trends with quality you can trust.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-link" aria-label="Pinterest">📌</a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#shop">Shop</a></li>
+                    <li><a href="index.html#new-arrivals">New Arrivals</a></li>
+                    <li><a href="index.html#blog">Blog</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Service -->
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Shipping Information</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Track Your Order</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul class="contact-info">
+                    <li>
+                        <span class="icon">📍</span>
+                        <span>123 Fashion Street, Style City, SC 12345</span>
+                    </li>
+                    <li>
+                        <span class="icon">📞</span>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <span class="icon">✉️</span>
+                        <span>hello@mixtas.com</span>
+                    </li>
+                    <li>
+                        <span class="icon">🕒</span>
+                        <span>Mon-Fri: 9AM-6PM EST</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="copyright">
+                    &copy; 2024 Mixtas. All rights reserved.
+                </div>
+                <ul class="footer-bottom-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+                <div class="payment-methods">
+                    <span>We Accept:</span>
+                    <div class="payment-icons">
+                        <div class="payment-icon">VISA</div>
+                        <div class="payment-icon">MC</div>
+                        <div class="payment-icon">PP</div>
+                        <div class="payment-icon">AE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
+
+    <script src="script.js"></script>
+    <script src="product-details.js"></script>
+</body>
+</html>
+
