@@ -1,4 +1,6 @@
 import React from 'react'
+import './productdetails.css'
+import './style.css'
 
 function ProductDetails() {
   return (
@@ -8,7 +10,7 @@ function ProductDetails() {
         <div className="cart-sidebar">
             <div className="cart-header">
                 <h3>Your Cart (<span id="cartCount">0</span>)</h3>
-                <button className="close-cart" onclick="closeCart()">×</button>
+                <button className="close-cart">×</button>
             </div>
             
             <div className="cart-items" id="cartItems">
@@ -19,7 +21,7 @@ function ProductDetails() {
                 <div className="cart-total">
                     <strong>Total: $<span id="cartTotal">0.00</span></strong>
                 </div>
-                <button className="checkout-btn" onclick="proceedToCheckout()">
+                <button className="checkout-btn">
                     Proceed to Checkout
                 </button>
             </div>
@@ -32,7 +34,7 @@ function ProductDetails() {
         </div>
         
         {/* Mobile Menu Toggle */}
-        <button className="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <button className="mobile-menu-toggle">
             <span></span>
             <span></span>
             <span></span>
@@ -48,35 +50,35 @@ function ProductDetails() {
         </nav>
         
         <div className="icons">
-            <div className="small icon-btn search-btn" onclick="toggleSearch()">🔍</div>
-            <div className="small icon-btn favorite-btn" onclick="toggleFavorites()">
+            <div className="small icon-btn search-btn">🔍</div>
+            <div className="small icon-btn favorite-btn">
                 ♡ <span className="favorite-count">0</span>
             </div>
             <div className="small icon-btn">👤</div>
-            <div className="badge icon-btn cart-btn" onclick="openCart()">0</div>
+            <div className="badge icon-btn cart-btn">0</div>
         </div>
         
         {/* Search Bar */}
         <div className="search-bar" id="searchBar">
             <input type="text" placeholder="Search products..." id="searchInput"/>
-            <button className="search-close" onclick="toggleSearch()">×</button>
+            <button className="search-close">×</button>
         </div>
     </header>
 
     {/* Mobile Menu Overlay */}
     <div className="mobile-menu-overlay" id="mobileMenuOverlay">
         <nav className="mobile-menu">
-            <a href="index.html" onclick="closeMobileMenu()">Home</a>
-            <a href="index.html#shop" onclick="closeMobileMenu()">Shop</a>
-            <a href="index.html#new-arrivals" onclick="closeMobileMenu()">New Arrivals</a>
-            <a href="index.html#blog" onclick="closeMobileMenu()">Blog</a>
-            <a href="index.html#contact" onclick="closeMobileMenu()">Contact Us</a>
+            <a href="index.html">Home</a>
+            <a href="index.html#shop">Shop</a>
+            <a href="index.html#new-arrivals">New Arrivals</a>
+            <a href="index.html#blog">Blog</a>
+            <a href="index.html#contact">Contact Us</a>
             
             <div className="mobile-menu-icons">
-                <div className="icon-btn" onclick="toggleSearch(); closeMobileMenu();">🔍 Search</div>
-                <div className="icon-btn" onclick="toggleFavorites(); closeMobileMenu();">♡ Favorites (<span className="favorite-count-mobile">0</span>)</div>
-                <div className="icon-btn" onclick="closeMobileMenu();">👤 Account</div>
-                <div className="icon-btn" onclick="openCart(); closeMobileMenu();">🛒 Cart (<span className="cart-badge-mobile">0</span>)</div>
+                <div className="icon-btn">🔍 Search</div>
+                <div className="icon-btn">♡ Favorites (<span className="favorite-count-mobile">0</span>)</div>
+                <div className="icon-btn">👤 Account</div>
+                <div className="icon-btn">🛒 Cart (<span className="cart-badge-mobile">0</span>)</div>
             </div>
         </nav>
     </div>
@@ -95,7 +97,7 @@ function ProductDetails() {
                 {/* Product Images */}
                 <div className="product-images">
                     <div className="main-image">
-                        <img id="mainProductImage" src="" alt="Product Image" />
+                        {/* <img id="mainProductImage" src="" alt="Product Image" /> */}
                     </div>
                     <div className="image-thumbnails" id="imageThumbnails">
                         {/* Thumbnails will be populated by JavaScript */}
@@ -142,22 +144,22 @@ function ProductDetails() {
                     <div className="option-section">
                         <label className="option-label">Quantity:</label>
                         <div className="quantity-selector">
-                            <button className="quantity-btn" onclick="decreaseQuantity()">-</button>
-                            <input type="number" id="quantity" value="1" min="1" max="10"/>
-                            <button className="quantity-btn" onclick="increaseQuantity()">+</button>
+                            <button className="quantity-btn">-</button>
+                            <input type="number" id="quantity" min="1" max="10"/>
+                            <button className="quantity-btn">+</button>
                         </div>
                         <span className="stock-info" id="stockInfo">In Stock</span>
                     </div>
 
                     {/* Add to Cart */}
                     <div className="action-buttons">
-                        <button className="add-to-cart-btn" onclick="addToCartFromDetails()">
+                        <button className="add-to-cart-btn">
                             Add to Cart
                         </button>
-                        <button className="buy-now-btn" onclick="buyNow()">
+                        <button className="buy-now-btn">
                             Buy Now
                         </button>
-                        <button className="wishlist-btn" onclick="addToWishlist()">
+                        <button className="wishlist-btn">
                             ♡ Add to Wishlist
                         </button>
                     </div>
@@ -180,10 +182,10 @@ function ProductDetails() {
             {/* Product Tabs */}
             <div className="product-tabs">
                 <div className="tab-headers">
-                    <button className="tab-header active" onclick="openTab('description')">Description</button>
-                    <button className="tab-header" onclick="openTab('specifications')">Specifications</button>
-                    <button className="tab-header" onclick="openTab('reviews')">Reviews</button>
-                    <button className="tab-header" onclick="openTab('shipping')">Shipping & Returns</button>
+                    <button className="tab-header active">Description</button>
+                    <button className="tab-header">Specifications</button>
+                    <button className="tab-header">Reviews</button>
+                    <button className="tab-header">Shipping & Returns</button>
                 </div>
 
                 <div className="tab-content">
@@ -285,7 +287,7 @@ function ProductDetails() {
         <div className="newsletter-content">
             <h3>Stay Updated</h3>
             <p>Subscribe to get special offers, free giveaways, and new arrivals</p>
-            <form className="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <form className="newsletter-form">
                 <input type="email" placeholder="Enter your email" required/>
                 <button type="submit">Subscribe</button>
             </form>
@@ -379,7 +381,7 @@ function ProductDetails() {
     </footer>
 
     {/* Back to Top Button */}
-    <button className="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
+    <button className="back-to-top">↑</button>
     </>
   )
 }
