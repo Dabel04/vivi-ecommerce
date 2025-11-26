@@ -1,5 +1,5 @@
-import LandingPage from "./Components/LandingPage"
-import ProductDetails from "./Components/ProductDetails"
+import LandingPage from "./Components/pages/LandingPage"
+import ProductDetails from "./Components/pages/ProductDetails"
 
 function App() {
   return (

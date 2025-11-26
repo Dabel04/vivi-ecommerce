@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import './style.css'
-import products from './products.json'
-import Notification from './Notification'
+import '../styles/style.css'
+import products from '../products.json'
+import Notification from '../pages/Notification'
 
 function LandingPage() {
   // store cart items with quantity so we know exactly what was added

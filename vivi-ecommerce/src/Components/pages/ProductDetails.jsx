@@ -1,6 +1,6 @@
 import React from 'react'
-import './productdetails.css'
-import './style.css'
+import '../styles/productdetails.css'
+import '../styles/style.css'
 
 function ProductDetails() {
   return (
