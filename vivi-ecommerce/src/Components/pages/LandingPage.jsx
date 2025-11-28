@@ -4,7 +4,6 @@ import products from '../products.json'
 import Notification from '../pages/Notification'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
-import './style.css'
 
 function LandingPage() {
   const [cartItems, setCartItems] = useState([])
