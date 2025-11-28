@@ -3,55 +3,71 @@ import '../styles/style.css'
 import products from '../products.json'
 import Notification from '../pages/Notification'
 import { Link } from 'react-router'
+import { useEffect } from 'react'
+import './style.css'
 
 function LandingPage() {
-  // store cart items with quantity so we know exactly what was added
-  const [cartItems, setCartItems] = useState([]); // array of { id, name, price, image, quantity }
-  const [notification, setNotification] = useState(null); 
-  const [isActive, setIsActive] = useState(false);
-  const [favorites, setFavorites] = useState(new Set());
+  const [cartItems, setCartItems] = useState([])
+  const [notification, setNotification] = useState(null) 
+  const [isActive, setIsActive] = useState(false)
+  const [favorites, setFavorites] = useState(new Set())
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   function showNotification(message) {
-    setNotification(message);
+    setNotification(message)
   }
 
-  // add item object (from products) to cart, increment quantity if present
   function updateCart(item) {
     setCartItems(prev => {
-      const existing = prev.find(p => p.id === item.id);
+      const existing = prev.find(p => p.id === item.id)
       if (existing) {
-        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p);
+        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p)
       }
-      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 }];
-    });
-    showNotification(`${item.name} added to cart!`);
+      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 }]
+    })
+    showNotification(`${item.name} added to cart!`)
   }
 
   function removeFromCart(id) {
-    setCartItems(prev => prev.filter(p => p.id !== id));
+    setCartItems(prev => prev.filter(p => p.id !== id))
   }
 
   const toggleFavorite = (id) => {
-    const updatedFavorites = new Set(favorites);
+    const updatedFavorites = new Set(favorites)
     if (updatedFavorites.has(id)) {
-        updatedFavorites.delete(id);
+        updatedFavorites.delete(id)
     } else {
-        updatedFavorites.add(id);
+        updatedFavorites.add(id)
     }
-    setFavorites(updatedFavorites);
-  };
+    setFavorites(updatedFavorites)
+  }
 
-  const baseClass = 'cart-overlay'
-  const openCart = isActive ? `active ${baseClass}` : baseClass
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
-  // derived values
-  const cartNumber = cartItems.reduce((s, i) => s + (i.quantity || 0), 0);
-  const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2);
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
+  useEffect(() => {
+    const handleBackdropClick = (event) => {
+      if (event.target.classList.contains('mobile-backdrop')) {
+        closeMobileMenu()
+      }
+    }
+
+    document.addEventListener('click', handleBackdropClick)
+    return () => document.removeEventListener('click', handleBackdropClick)
+  }, [])
+
+  const cartNumber = cartItems.reduce((s, i) => s + (i.quantity || 0), 0)
+  const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
 
   return (
     <>
         {/* Cart Sidebar */}
-        <div id="cartOverlay" className={openCart}>
+        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
             <div className="cart-sidebar">
                 <div className="cart-header">
                     <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
@@ -86,68 +102,114 @@ function LandingPage() {
             </div>
         </div>
 
-        {/* Quick View Modal */}
-        <div id="productModal" className="modal-overlay">
-            <div className="modal-content">
-                <button className="close-modal">×</button>
-                <div className="modal-body" id="modalBody">
-                    {/* Product details will be injected here */}
-                </div>
-            </div>
-        </div>
-
-        <header className="nav">
-            <div className="logo">Mixtas</div>
-            
-            {/* Mobile Menu Toggle */}
-            <button className="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <nav className="menu" id="mainMenu">
-                <a href="#" className="active">Home</a>
-                <a href="#shop">Shop</a>
-                <a href="#new-arrivals">New Arrivals</a>
-                <a href="#blog">Blog</a>
-                <a href="#contact">Contact Us</a>
-            </nav>
-            
-            <div className="icons">
-                <div className="small icon-btn search-btn">🔍</div>
-                <div className="small icon-btn favorite-btn">
-                    ♡ <span className="favorite-count">{favorites.size}</span>
-                </div>
-                <div className="small icon-btn">👤</div>
-                <div className="badge icon-btn cart-btn" onClick={() => setIsActive(true)}>{cartNumber}</div>
-            </div>
-            
-            {/* Search Bar */}
-            <div className="search-bar" id="searchBar">
-                <input type="text" placeholder="Search products..." id="searchInput"/>
-                <button className="search-close">×</button>
-            </div>
-        </header>
+        {/* Mobile Menu Backdrop */}
+        <div 
+          className={`mobile-backdrop ${isMobileMenuOpen ? 'show' : ''}`}
+          onClick={closeMobileMenu}
+        ></div>
 
         {/* Mobile Menu Overlay */}
-        <div className="mobile-menu-overlay" id="mobileMenuOverlay">
-            <nav className="mobile-menu">
-                <a href="#" className="active">Home</a>
-                <a href="#shop">Shop</a>
-                <a href="#new-arrivals">New Arrivals</a>
-                <a href="#blog">Blog</a>
-                <a href="#contact">Contact Us</a>
-                
-                <div className="mobile-menu-icons">
-                    <div className="icon-btn">🔍 Search</div>
-                    <div className="icon-btn">♡ Favorites</div>
-                    <div className="icon-btn">👤 Account</div>
-                    <div className="icon-btn">🛒 Cart (<span className="cart-badge-mobile">{cartNumber}</span>)</div>
-                </div>
+        <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'show' : ''}`}>
+            <nav className="mobile-nav-menu">
+                <a href="#" className="active" onClick={closeMobileMenu}>Home</a>
+                <a href="#shop" onClick={closeMobileMenu}>Shop</a>
+                <a href="#new-arrivals" onClick={closeMobileMenu}>New Arrivals</a>
+                <a href="#about" onClick={closeMobileMenu}>About</a>
+                <a href="#contact" onClick={closeMobileMenu}>Contact</a>
             </nav>
         </div>
 
+        {/* Bootstrap Navbar - Fixed */}
+        <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
+            <div className="container-fluid">
+                <div className="mobile-left-section">
+                    <button 
+                        className="navbar-toggler navbar-toggler-custom d-lg-none" 
+                        type="button"
+                        onClick={toggleMobileMenu}
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <a className="navbar-brand navbar-brand-custom" href="#">
+                        Mixtas
+                    </a>
+                </div>
+
+                <div className="d-lg-none d-flex align-items-center">
+                    <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
+                        👤
+                    </button>
+                    <button 
+                        className="btn btn-link text-decoration-none p-2 position-relative" 
+                        style={{color: 'var(--background-color)'}}
+                        onClick={() => setIsActive(true)}
+                    >
+                        🛒
+                        {cartNumber > 0 && (
+                            <span className="custom-cart-badge">{cartNumber}</span>
+                        )}
+                    </button>
+                </div>
+
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav desktop-menu-center">
+                        <li className="nav-item">
+                            <a className="nav-link active" href="#">Home</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#shop">Shop</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#new-arrivals">New Arrivals</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#about">About</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+
+                    <div className="desktop-icons-right">
+                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
+                            ♡
+                            {favorites.size > 0 && (
+                                <span className="custom-cart-badge">{favorites.size}</span>
+                            )}
+                        </button>
+                        
+                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
+                            👤
+                        </button>
+                        
+                        <button 
+                            className="btn btn-link text-decoration-none p-2 position-relative" 
+                            style={{color: 'var(--background-color)'}}
+                            onClick={() => setIsActive(true)}
+                        >
+                            🛒
+                            {cartNumber > 0 && (
+                                <span className="custom-cart-badge">{cartNumber}</span>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        {/* Mobile Search Bar - Below Navbar */}
+        <div className="mobile-search-container">
+            <div className="mobile-search-bar">
+                <input 
+                    type="text" 
+                    placeholder="Search products..." 
+                />
+                <button type="button">
+                    🔍
+                </button>
+            </div>
+        </div>
         <section className="hero">
             <div className="hero-inner">
                 <div className="hero-left">
@@ -162,7 +224,6 @@ function LandingPage() {
         <section className="section" id="new-arrivals">
             <h2>New Arrivals</h2>
             
-            {/* Category Tabs */}
             <div className="tabs">
                 <div className="tab active" data-category="all">ALL</div>
                 <div className="tab" data-category="women">WOMEN</div>
@@ -198,6 +259,51 @@ function LandingPage() {
                   ))}
               </div>      
 
+=======
+            {/* Products Section - Responsive (Grid on Desktop, Horizontal Scroll on Mobile) */}
+            <div className="desktop-grid">
+                {products.map((item) => (
+                    <div className='card' key={item.id}>
+                    <div>
+                        <img src={item.image} alt={item.description} />
+                        <button 
+                        className={`favorite-btn ${favorites.has(item.id) ? 'favorited' : ''}`}
+                        onClick={() => toggleFavorite(item.id)}
+                        >
+                        {favorites.has(item.id) ? '❤️' : '♡'}
+                        </button>
+                    </div>
+                    <div className="title">JACKETS<span className="small">{item.name}</span></div>
+                    <div className="price">${item.price}</div>
+                    <div className="card-actions">
+                        <button className="quick-view-btn" style={{background: '#2d5a3d'}}>Quick View</button>
+                        <button className="add-to-cart" onClick={() => updateCart(item)} style={{background: '#e74c3c'}}>Add to Cart</button>
+                    </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="mobile-scroll">
+                <div className="scroll-container">
+                    {products.map((item) => (
+                        <div className="scroll-card" key={item.id}>
+                        <img src={item.image} alt={item.description} />
+                        <button 
+                            className={`favorite-btn ${favorites.has(item.id) ? 'favorited' : ''}`}
+                            onClick={() => toggleFavorite(item.id)}
+                        >
+                            {favorites.has(item.id) ? '❤️' : '♡'}
+                        </button>
+                        <div className="title">JACKETS<span className="small">{item.name}</span></div>
+                        <div className="price">${item.price}</div>
+                        <div className="card-actions">
+                            <button className="quick-view-btn" style={{background: '#2d5a3d'}}>Quick View</button>
+                            <button className="add-to-cart" onClick={() => updateCart(item)} style={{background: '#e74c3c'}}>Add to Cart</button>
+                        </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             <div className="promo promo-large" style={{background: "#f0edd9"}}>
                 <h3>Trendsetting Bags for Her</h3>
@@ -206,7 +312,6 @@ function LandingPage() {
             </div>
         </section>
 
-        {/* Newsletter Section */}
         <section className="newsletter">
             <div className="newsletter-content">
                 <h3>Stay Updated</h3>
