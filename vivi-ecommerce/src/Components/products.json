@@ -110,7 +110,7 @@
       "id": 14, 
       "name": "Adidas X Pop Classic T-shirt", 
       "price": 120.00, 
-      "image": "kugvkluhvljkgvlj", 
+      "image": "./img/f1.jpg", 
       "description": "adidas X Pop Classic t-shirt, grey / navy" 
   },
 
@@ -125,7 +125,7 @@
       "id": 16, 
       "name": "Butter Yard Pullover Hood", 
       "price": 120.00, 
-      "image": "kuhvkuhvkugv", 
+      "image": "./img/f3.jpg", 
       "description": "Butter Yard Pullover Hood, denim" 
   },
 
@@ -133,7 +133,7 @@
       "id": 17, 
       "name": "Parra Rug Pull T-shirt", 
       "price": 60.00, 
-      "image": "hhhhhhh", 
+      "image": "./img/f2.jpg", 
       "description": "Parra Rug Pull t-shirt, white" 
   },
   
@@ -141,7 +141,7 @@
     "id": 18, 
     "name": "Carhartt L/S Sweat", 
     "price": 130.00, 
-    "image": "kjhblvihvlhiv", 
+    "image": "./img/f1.jpg", 
     "description": "Carhartt L/S DeadKebab Knock Knock Sweat" 
   }
 ]
