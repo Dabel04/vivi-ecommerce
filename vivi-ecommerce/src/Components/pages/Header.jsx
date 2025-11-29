@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Notification from './Notification'
 
-function Header({cartNumber, cartTotal, cartItems, notification, setNotification, removeFromCart}) {
+function Header({cartNumber, cartTotal, cartItems, notification, setNotification, removeFromCart, favorites}) {
     const [isActive, setIsActive] = useState(false)
 
     
@@ -99,10 +99,10 @@ function Header({cartNumber, cartTotal, cartItems, notification, setNotification
             <div className="desktop-icons-right">
               <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
                   ♡
-                  {/* {
+                  {
                   favorites.size > 0 && (
                       <span className="custom-cart-badge">{favorites.size}</span>
-                  )} */}
+                  )}
               </button>
               
               <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>

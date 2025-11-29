@@ -9,9 +9,8 @@ function App() {
     const [notification, setNotification] = useState(null) 
       const [favorites, setFavorites] = useState(new Set())
 
-  const toggleFavorite = (e, id) => {
+  const toggleFavorite = (id) => {
     const updatedFavorites = new Set(favorites)
-    e.stopPropagation()
     if (updatedFavorites.has(id)) {
         updatedFavorites.delete(id)
     } else {
@@ -20,13 +19,14 @@ function App() {
     setFavorites(updatedFavorites)
   }
     
-    function updateCart(item) {
+    function updateCart(item, quantitys) {
+      const qty = Number(quantitys) || 1
       setCartItems(prev => {
       const existing = prev.find(p => p.id === item.id)
       if (existing) {
-        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p)
+        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + qty } : p)
       }
-      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 }]
+      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: qty }]
     })
     showNotification(`${item.name} added to cart!`)
   }
@@ -43,10 +43,10 @@ function App() {
   const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
   return (
     <>
-          <Header cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems} notification={notification} setNotification={setNotification} removeFromCart={removeFromCart}/>
+          <Header cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems} notification={notification} setNotification={setNotification} removeFromCart={removeFromCart} favorites={favorites}/>
           <Routes>
-            <Route path="/" element={<LandingPage updateCart={updateCart}/>} />
-            <Route path="/products/:Id" element={<ProductDetails updateCart={updateCart}/>} />
+            <Route path="/" element={<LandingPage updateCart={updateCart} toggleFavorite={toggleFavorite} setFavorites={setFavorites} favorites={favorites}/>} />
+            <Route path="/products/:Id" element={<ProductDetails updateCart={updateCart} toggleFavorite={toggleFavorite} favorites={favorites}/>} />
           </Routes>
       </>
   )

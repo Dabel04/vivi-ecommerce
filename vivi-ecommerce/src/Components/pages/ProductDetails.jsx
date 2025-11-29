@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import products from '../products.json';
 
 
-function ProductDetails({updateCart}) { 
+function ProductDetails({updateCart, favorites, toggleFavorite}) { 
+    const [quantityNumber, setQuantityNumber] = useState(1)
     const [activeTab, setActiveTab] = useState('description');
     const { Id } = useParams();
     const numericId = parseInt(Id)
@@ -119,23 +120,27 @@ function ProductDetails({updateCart}) {
                     <div className="option-section">
                         <label className="option-label">Quantity:</label>
                         <div className="quantity-selector">
-                            <button className="quantity-btn">-</button>
-                            <input type="number" id="quantity" min="1" max="10"/>
-                            <button className="quantity-btn">+</button>
+                            <button className="quantity-btn" onClick={() => setQuantityNumber(quantityNumber - 1)} disabled={quantityNumber === 1}>-</button>
+                            <input type="number" id="quantity" min="1" max="10" value={quantityNumber} readOnly/> 
+                            <button className="quantity-btn" onClick={() => setQuantityNumber(quantityNumber + 1)}>+</button>
                         </div>
                         <span className="stock-info" id="stockInfo">In Stock</span>
                     </div>
 
                     {/* Add to Cart */}
                     <div className="action-buttons">
-                        <button className="add-to-cart-btn" onClick={() => updateCart(product)}>
+                        <button className="add-to-cart-btn" onClick={() => updateCart(product, quantityNumber)}>
                             Add to Cart
                         </button>
                         <button className="buy-now-btn">
                             Buy Now
                         </button>
-                        <button className="wishlist-btn">
-                            ♡ Add to Wishlist
+                        <button 
+                          className={"wishlist-btn"}
+                          onClick={() => toggleFavorite(product.id)}
+                        >
+                          {favorites.has(product.id) ? '❤️' : '♡'}
+                          Add To Wishlist
                         </button>
                     </div>
 

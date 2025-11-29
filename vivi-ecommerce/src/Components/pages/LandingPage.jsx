@@ -4,8 +4,7 @@ import products from '../products.json'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
 
-function LandingPage({updateCart}) {
-  const [favorites, setFavorites] = useState(new Set())
+function LandingPage({updateCart, toggleFavorite, favorites}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
 
