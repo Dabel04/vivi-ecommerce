@@ -1,49 +1,16 @@
 import React, { useState } from 'react'
 import '../styles/style.css'
 import products from '../products.json'
-import Notification from '../pages/Notification'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
 
-function LandingPage() {
-  const [cartItems, setCartItems] = useState([])
-  const [notification, setNotification] = useState(null) 
-  const [isActive, setIsActive] = useState(false)
-  const [favorites, setFavorites] = useState(new Set())
+function LandingPage({updateCart, toggleFavorite, favorites}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  function showNotification(message) {
-    setNotification(message)
-  }
 
-  function updateCart(item) {
-    setCartItems(prev => {
-      const existing = prev.find(p => p.id === item.id)
-      if (existing) {
-        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p)
-      }
-      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 }]
-    })
-    showNotification(`${item.name} added to cart!`)
-  }
-
-  function removeFromCart(id) {
-    setCartItems(prev => prev.filter(p => p.id !== id))
-  }
-
-  const toggleFavorite = (id) => {
-    const updatedFavorites = new Set(favorites)
-    if (updatedFavorites.has(id)) {
-        updatedFavorites.delete(id)
-    } else {
-        updatedFavorites.add(id)
-    }
-    setFavorites(updatedFavorites)
-  }
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+//   const toggleMobileMenu = () => {
+//     setIsMobileMenuOpen(!isMobileMenuOpen)
+//   }
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
@@ -60,48 +27,10 @@ function LandingPage() {
     return () => document.removeEventListener('click', handleBackdropClick)
   }, [])
 
-  const cartNumber = cartItems.reduce((s, i) => s + (i.quantity || 0), 0)
-  const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
 
   return (
     <>
-        {/* Cart Sidebar */}
-        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
-            <div className="cart-sidebar">
-                <div className="cart-header">
-                    <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
-                    <button className="close-cart" onClick={() => setIsActive(false)}>×</button>
-                </div>
-                
-                <div className="cart-items" id="cartItems">
-                    {cartItems.length === 0 ? (
-                      <p className="empty-cart">Your cart is empty</p>
-                    ) : (
-                      cartItems.map(ci => (
-                        <div className="cart-item" key={ci.id}>
-                          <img src={ci.image} alt={ci.name} />
-                          <div className='item-details'>
-                            <h4>{ci.name}</h4>
-                            <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
-                          </div>
-                          <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button>
-                        </div>
-                      ))
-                    )}
-                </div>
-                
-                <div className="cart-footer">
-                    <div className="cart-total">
-                        <strong>Total: $<span id="cartTotal">{cartTotal}</span></strong>
-                    </div>
-                    <button className="checkout-btn">
-                        Proceed to Checkout
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        {/* Mobile Menu Backdrop */}
+            {/* Mobile Menu Backdrop */}
         <div 
           className={`mobile-backdrop ${isMobileMenuOpen ? 'show' : ''}`}
           onClick={closeMobileMenu}
@@ -118,84 +47,7 @@ function LandingPage() {
             </nav>
         </div>
 
-        {/* Bootstrap Navbar - Fixed */}
-        <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
-            <div className="container-fluid">
-                <div className="mobile-left-section">
-                    <button 
-                        className="navbar-toggler navbar-toggler-custom d-lg-none" 
-                        type="button"
-                        onClick={toggleMobileMenu}
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <a className="navbar-brand navbar-brand-custom" href="#">
-                        Mixtas
-                    </a>
-                </div>
-
-                <div className="d-lg-none d-flex align-items-center">
-                    <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                        👤
-                    </button>
-                    <button 
-                        className="btn btn-link text-decoration-none p-2 position-relative" 
-                        style={{color: 'var(--background-color)'}}
-                        onClick={() => setIsActive(true)}
-                    >
-                        🛒
-                        {cartNumber > 0 && (
-                            <span className="custom-cart-badge">{cartNumber}</span>
-                        )}
-                    </button>
-                </div>
-
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav desktop-menu-center">
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#shop">Shop</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#new-arrivals">New Arrivals</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#about">About</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#contact">Contact</a>
-                        </li>
-                    </ul>
-
-                    <div className="desktop-icons-right">
-                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                            ♡
-                            {favorites.size > 0 && (
-                                <span className="custom-cart-badge">{favorites.size}</span>
-                            )}
-                        </button>
-                        
-                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                            👤
-                        </button>
-                        
-                        <button 
-                            className="btn btn-link text-decoration-none p-2 position-relative" 
-                            style={{color: 'var(--background-color)'}}
-                            onClick={() => setIsActive(true)}
-                        >
-                            🛒
-                            {cartNumber > 0 && (
-                                <span className="custom-cart-badge">{cartNumber}</span>
-                            )}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        
 
         {/* Mobile Search Bar - Below Navbar */}
         <div className="mobile-search-container">
@@ -240,20 +92,21 @@ function LandingPage() {
                        <Link to={`/products/${item.id}`}>                   
                       <div>
                         <img src={item.image} alt={item.description} />
+                      </div>
+                      <div className="title">JACKETS<span className="small">{item.name}</span></div>
+                      <div className="price">${item.price}</div>
+                      </Link>
+                      <div className="card-actions">
+                          <button className="quick-view-btn">Quick View</button>
+                          <button className="add-to-cart" onClick={() => updateCart(item)}>Add to Cart</button>
+                      </div>
                         <button 
                           className={`favorite-btn ${favorites.has(item.id) ? 'favorited' : ''}`}
                           onClick={() => toggleFavorite(item.id)}
                         >
                           {favorites.has(item.id) ? '❤️' : '♡'}
                         </button>
-                      </div>
-                      <div className="title">JACKETS<span className="small">{item.name}</span></div>
-                      <div className="price">${item.price}</div>
-                      <div className="card-actions">
-                          <button className="quick-view-btn">Quick View</button>
-                          <button className="add-to-cart" onClick={() => updateCart(item)}>Add to Cart</button>
-                      </div>
-                      </Link>
+
                     </div>
                   ))}
               </div>      
@@ -321,9 +174,6 @@ function LandingPage() {
                 </form>
             </div>
         </section>
-        {notification && (
-            <Notification message={notification} onClose={() => setNotification(null)} />
-        )}
     </>
   )
 }

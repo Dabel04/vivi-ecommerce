@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import products from '../products.json';
 
 
-function ProductDetails() {
+function ProductDetails({updateCart, favorites, toggleFavorite}) { 
+    const [quantityNumber, setQuantityNumber] = useState(1)
     const [activeTab, setActiveTab] = useState('description');
     const { Id } = useParams();
     const numericId = parseInt(Id)
@@ -26,58 +27,12 @@ function ProductDetails() {
     // --- end added ---
   return (
     <>
-    {/* Cart Sidebar */}
-    <div id="cartOverlay" className="cart-overlay">
-        <div className="cart-sidebar">
-            <div className="cart-header">
-                <h3>Your Cart (<span id="cartCount">0</span>)</h3>
-                <button className="close-cart">×</button>
-            </div>
-            
-            <div className="cart-items" id="cartItems">
-                <p className="empty-cart">Your cart is empty</p>
-            </div>
-            
-            <div className="cart-footer">
-                <div className="cart-total">
-                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
-                </div>
-                <button className="checkout-btn">
-                    Proceed to Checkout
-                </button>
-            </div>
-        </div>
-    </div>
-
     <header className="nav">
         <div className="logo">
-            {/* <a href="index.html" style={{color: 'inherit' text-decoration: 'none'}}>Mixtas</a> */}
         </div>
         
         {/* Mobile Menu Toggle */}
-        <button className="mobile-menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
 
-        {/* Original Navigation Structure */}
-        <nav className="menu">
-            <a href="index.html">Home</a>
-            <a href="index.html#shop">Shop</a>
-            <a href="index.html#new-arrivals">New Arrivals</a>
-            <a href="index.html#blog">Blog</a>
-            <a href="index.html#contact">Contact Us</a>
-        </nav>
-        
-        <div className="icons">
-            <div className="small icon-btn search-btn">🔍</div>
-            <div className="small icon-btn favorite-btn">
-                ♡ <span className="favorite-count">0</span>
-            </div>
-            <div className="small icon-btn">👤</div>
-            <div className="badge icon-btn cart-btn">0</div>
-        </div>
         
         {/* Search Bar */}
         <div className="search-bar" id="searchBar">
@@ -165,23 +120,27 @@ function ProductDetails() {
                     <div className="option-section">
                         <label className="option-label">Quantity:</label>
                         <div className="quantity-selector">
-                            <button className="quantity-btn">-</button>
-                            <input type="number" id="quantity" min="1" max="10"/>
-                            <button className="quantity-btn">+</button>
+                            <button className="quantity-btn" onClick={() => setQuantityNumber(quantityNumber - 1)} disabled={quantityNumber === 1}>-</button>
+                            <input type="number" id="quantity" min="1" max="10" value={quantityNumber} readOnly/> 
+                            <button className="quantity-btn" onClick={() => setQuantityNumber(quantityNumber + 1)}>+</button>
                         </div>
                         <span className="stock-info" id="stockInfo">In Stock</span>
                     </div>
 
                     {/* Add to Cart */}
                     <div className="action-buttons">
-                        <button className="add-to-cart-btn">
+                        <button className="add-to-cart-btn" onClick={() => updateCart(product, quantityNumber)}>
                             Add to Cart
                         </button>
                         <button className="buy-now-btn">
                             Buy Now
                         </button>
-                        <button className="wishlist-btn">
-                            ♡ Add to Wishlist
+                        <button 
+                          className={"wishlist-btn"}
+                          onClick={() => toggleFavorite(product.id)}
+                        >
+                          {favorites.has(product.id) ? '❤️' : '♡'}
+                          Add To Wishlist
                         </button>
                     </div>
 
