@@ -6,13 +6,10 @@ import { Link } from 'react-router'
 import { useEffect } from 'react'
 
 function LandingPage({updateCart}) {
-  const [notification, setNotification] = useState(null) 
   const [favorites, setFavorites] = useState(new Set())
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-//   function showNotification(message) {
-//     setNotification(message)
-//   }
+
 
   const toggleFavorite = (e, id) => {
     const updatedFavorites = new Set(favorites)
@@ -191,9 +188,6 @@ function LandingPage({updateCart}) {
                 </form>
             </div>
         </section>
-        {notification && (
-            <Notification message={notification} onClose={() => setNotification(null)} />
-        )}
     </>
   )
 }

@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
+import Notification from './Notification'
 
-function Header({cartNumber, cartTotal, cartItems}) {
+function Header({cartNumber, cartTotal, cartItems, notification, setNotification}) {
     const [isActive, setIsActive] = useState(false)
+
+    
   return (
     <>
               {/* Cart Sidebar */}
@@ -120,6 +123,10 @@ function Header({cartNumber, cartTotal, cartItems}) {
           </div>
         </div>
       </nav>
+
+              {notification && (
+            <Notification message={notification} onClose={() => setNotification(null)} />
+        )}
     </>
   )
 }
