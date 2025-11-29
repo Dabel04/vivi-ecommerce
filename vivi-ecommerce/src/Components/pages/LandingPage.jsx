@@ -31,8 +31,9 @@ function LandingPage() {
     setCartItems(prev => prev.filter(p => p.id !== id))
   }
 
-  const toggleFavorite = (id) => {
+  const toggleFavorite = (e, id) => {
     const updatedFavorites = new Set(favorites)
+    e.stopPropagation()
     if (updatedFavorites.has(id)) {
         updatedFavorites.delete(id)
     } else {
@@ -240,20 +241,21 @@ function LandingPage() {
                        <Link to={`/products/${item.id}`}>                   
                       <div>
                         <img src={item.image} alt={item.description} />
+                      </div>
+                      <div className="title">JACKETS<span className="small">{item.name}</span></div>
+                      <div className="price">${item.price}</div>
+                      </Link>
+                      <div className="card-actions">
+                          <button className="quick-view-btn">Quick View</button>
+                          <button className="add-to-cart" onClick={() => updateCart(item)}>Add to Cart</button>
+                      </div>
                         <button 
                           className={`favorite-btn ${favorites.has(item.id) ? 'favorited' : ''}`}
                           onClick={() => toggleFavorite(item.id)}
                         >
                           {favorites.has(item.id) ? '❤️' : '♡'}
                         </button>
-                      </div>
-                      <div className="title">JACKETS<span className="small">{item.name}</span></div>
-                      <div className="price">${item.price}</div>
-                      <div className="card-actions">
-                          <button className="quick-view-btn">Quick View</button>
-                          <button className="add-to-cart" onClick={() => updateCart(item)}>Add to Cart</button>
-                      </div>
-                      </Link>
+
                     </div>
                   ))}
               </div>      
