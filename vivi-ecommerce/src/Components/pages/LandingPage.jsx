@@ -5,31 +5,15 @@ import Notification from '../pages/Notification'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
 
-function LandingPage() {
-  const [cartItems, setCartItems] = useState([])
-  const [notification, setNotification] = useState(null) 
+function LandingPage({updateCart, cartNumber, cartTotal, cartItems}) {
   const [isActive, setIsActive] = useState(false)
+  const [notification, setNotification] = useState(null) 
   const [favorites, setFavorites] = useState(new Set())
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  function showNotification(message) {
-    setNotification(message)
-  }
-
-  function updateCart(item) {
-    setCartItems(prev => {
-      const existing = prev.find(p => p.id === item.id)
-      if (existing) {
-        return prev.map(p => p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p)
-      }
-      return [...prev, { id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 }]
-    })
-    showNotification(`${item.name} added to cart!`)
-  }
-
-  function removeFromCart(id) {
-    setCartItems(prev => prev.filter(p => p.id !== id))
-  }
+//   function showNotification(message) {
+//     setNotification(message)
+//   }
 
   const toggleFavorite = (e, id) => {
     const updatedFavorites = new Set(favorites)
@@ -61,8 +45,6 @@ function LandingPage() {
     return () => document.removeEventListener('click', handleBackdropClick)
   }, [])
 
-  const cartNumber = cartItems.reduce((s, i) => s + (i.quantity || 0), 0)
-  const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
 
   return (
     <>
@@ -85,7 +67,7 @@ function LandingPage() {
                             <h4>{ci.name}</h4>
                             <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
                           </div>
-                          <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button>
+                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
                         </div>
                       ))
                     )}
@@ -119,84 +101,7 @@ function LandingPage() {
             </nav>
         </div>
 
-        {/* Bootstrap Navbar - Fixed */}
-        <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
-            <div className="container-fluid">
-                <div className="mobile-left-section">
-                    <button 
-                        className="navbar-toggler navbar-toggler-custom d-lg-none" 
-                        type="button"
-                        onClick={toggleMobileMenu}
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <a className="navbar-brand navbar-brand-custom" href="#">
-                        Mixtas
-                    </a>
-                </div>
-
-                <div className="d-lg-none d-flex align-items-center">
-                    <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                        👤
-                    </button>
-                    <button 
-                        className="btn btn-link text-decoration-none p-2 position-relative" 
-                        style={{color: 'var(--background-color)'}}
-                        onClick={() => setIsActive(true)}
-                    >
-                        🛒
-                        {cartNumber > 0 && (
-                            <span className="custom-cart-badge">{cartNumber}</span>
-                        )}
-                    </button>
-                </div>
-
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav desktop-menu-center">
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#shop">Shop</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#new-arrivals">New Arrivals</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#about">About</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#contact">Contact</a>
-                        </li>
-                    </ul>
-
-                    <div className="desktop-icons-right">
-                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                            ♡
-                            {favorites.size > 0 && (
-                                <span className="custom-cart-badge">{favorites.size}</span>
-                            )}
-                        </button>
-                        
-                        <button className="btn btn-link text-decoration-none p-2 position-relative" style={{color: 'var(--background-color)'}}>
-                            👤
-                        </button>
-                        
-                        <button 
-                            className="btn btn-link text-decoration-none p-2 position-relative" 
-                            style={{color: 'var(--background-color)'}}
-                            onClick={() => setIsActive(true)}
-                        >
-                            🛒
-                            {cartNumber > 0 && (
-                                <span className="custom-cart-badge">{cartNumber}</span>
-                            )}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        
 
         {/* Mobile Search Bar - Below Navbar */}
         <div className="mobile-search-container">

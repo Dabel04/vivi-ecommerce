@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import products from '../products.json';
 
 
-function ProductDetails() {
+function ProductDetails({updateCart, cartNumber, cartTotal, cartItems}) {
+    const [isActive, setIsActive] = useState(false)
     const [activeTab, setActiveTab] = useState('description');
     const { Id } = useParams();
     const numericId = parseInt(Id)
@@ -26,28 +27,41 @@ function ProductDetails() {
     // --- end added ---
   return (
     <>
-    {/* Cart Sidebar */}
-    <div id="cartOverlay" className="cart-overlay">
-        <div className="cart-sidebar">
-            <div className="cart-header">
-                <h3>Your Cart (<span id="cartCount">0</span>)</h3>
-                <button className="close-cart">×</button>
-            </div>
-            
-            <div className="cart-items" id="cartItems">
-                <p className="empty-cart">Your cart is empty</p>
-            </div>
-            
-            <div className="cart-footer">
-                <div className="cart-total">
-                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+        {/* Cart Sidebar */}
+        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
+            <div className="cart-sidebar">
+                <div className="cart-header">
+                    <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
+                    <button className="close-cart" onClick={() => setIsActive(false)}>×</button>
                 </div>
-                <button className="checkout-btn">
-                    Proceed to Checkout
-                </button>
+                
+                <div className="cart-items" id="cartItems">
+                    {cartItems.length === 0 ? (
+                      <p className="empty-cart">Your cart is empty</p>
+                    ) : (
+                      cartItems.map(ci => (
+                        <div className="cart-item" key={ci.id}>
+                          <img src={ci.image} alt={ci.name} />
+                          <div className='item-details'>
+                            <h4>{ci.name}</h4>
+                            <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
+                          </div>
+                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
+                        </div>
+                      ))
+                    )}
+                </div>
+                
+                <div className="cart-footer">
+                    <div className="cart-total">
+                        <strong>Total: $<span id="cartTotal">{cartTotal}</span></strong>
+                    </div>
+                    <button className="checkout-btn">
+                        Proceed to Checkout
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
     <header className="nav">
         <div className="logo">
@@ -55,29 +69,7 @@ function ProductDetails() {
         </div>
         
         {/* Mobile Menu Toggle */}
-        <button className="mobile-menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
 
-        {/* Original Navigation Structure */}
-        <nav className="menu">
-            <a href="index.html">Home</a>
-            <a href="index.html#shop">Shop</a>
-            <a href="index.html#new-arrivals">New Arrivals</a>
-            <a href="index.html#blog">Blog</a>
-            <a href="index.html#contact">Contact Us</a>
-        </nav>
-        
-        <div className="icons">
-            <div className="small icon-btn search-btn">🔍</div>
-            <div className="small icon-btn favorite-btn">
-                ♡ <span className="favorite-count">0</span>
-            </div>
-            <div className="small icon-btn">👤</div>
-            <div className="badge icon-btn cart-btn">0</div>
-        </div>
         
         {/* Search Bar */}
         <div className="search-bar" id="searchBar">
@@ -174,7 +166,7 @@ function ProductDetails() {
 
                     {/* Add to Cart */}
                     <div className="action-buttons">
-                        <button className="add-to-cart-btn">
+                        <button className="add-to-cart-btn" onClick={updateCart}>
                             Add to Cart
                         </button>
                         <button className="buy-now-btn">
