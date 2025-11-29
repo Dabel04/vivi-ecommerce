@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/style.css'
 import products from '../products.json'
-import Notification from '../pages/Notification'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
 
@@ -10,21 +9,9 @@ function LandingPage({updateCart}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
 
-
-  const toggleFavorite = (e, id) => {
-    const updatedFavorites = new Set(favorites)
-    e.stopPropagation()
-    if (updatedFavorites.has(id)) {
-        updatedFavorites.delete(id)
-    } else {
-        updatedFavorites.add(id)
-    }
-    setFavorites(updatedFavorites)
-  }
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+//   const toggleMobileMenu = () => {
+//     setIsMobileMenuOpen(!isMobileMenuOpen)
+//   }
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)

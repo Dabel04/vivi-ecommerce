@@ -5,8 +5,7 @@ import { useParams } from 'react-router-dom';
 import products from '../products.json';
 
 
-function ProductDetails({updateCart, cartNumber, cartTotal, cartItems}) {
-    const [isActive, setIsActive] = useState(false)
+function ProductDetails({updateCart}) { 
     const [activeTab, setActiveTab] = useState('description');
     const { Id } = useParams();
     const numericId = parseInt(Id)
@@ -27,45 +26,8 @@ function ProductDetails({updateCart, cartNumber, cartTotal, cartItems}) {
     // --- end added ---
   return (
     <>
-        {/* Cart Sidebar */}
-        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
-            <div className="cart-sidebar">
-                <div className="cart-header">
-                    <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
-                    <button className="close-cart" onClick={() => setIsActive(false)}>×</button>
-                </div>
-                
-                <div className="cart-items" id="cartItems">
-                    {cartItems.length === 0 ? (
-                      <p className="empty-cart">Your cart is empty</p>
-                    ) : (
-                      cartItems.map(ci => (
-                        <div className="cart-item" key={ci.id}>
-                          <img src={ci.image} alt={ci.name} />
-                          <div className='item-details'>
-                            <h4>{ci.name}</h4>
-                            <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
-                          </div>
-                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
-                        </div>
-                      ))
-                    )}
-                </div>
-                
-                <div className="cart-footer">
-                    <div className="cart-total">
-                        <strong>Total: $<span id="cartTotal">{cartTotal}</span></strong>
-                    </div>
-                    <button className="checkout-btn">
-                        Proceed to Checkout
-                    </button>
-                </div>
-            </div>
-        </div>
-
     <header className="nav">
         <div className="logo">
-            {/* <a href="index.html" style={{color: 'inherit' text-decoration: 'none'}}>Mixtas</a> */}
         </div>
         
         {/* Mobile Menu Toggle */}
@@ -166,7 +128,7 @@ function ProductDetails({updateCart, cartNumber, cartTotal, cartItems}) {
 
                     {/* Add to Cart */}
                     <div className="action-buttons">
-                        <button className="add-to-cart-btn" onClick={updateCart}>
+                        <button className="add-to-cart-btn" onClick={() => updateCart(product)}>
                             Add to Cart
                         </button>
                         <button className="buy-now-btn">

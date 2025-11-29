@@ -3,11 +3,22 @@ import LandingPage from "./Components/pages/LandingPage"
 import ProductDetails from "./Components/pages/ProductDetails"
 import { Route, Routes } from "react-router-dom"
 import Header from "./Components/pages/Header"
-import Notification from "./Components/pages/Notification"
 
 function App() {
     const [cartItems, setCartItems] = useState([])
-      const [notification, setNotification] = useState(null) 
+    const [notification, setNotification] = useState(null) 
+      const [favorites, setFavorites] = useState(new Set())
+
+  const toggleFavorite = (e, id) => {
+    const updatedFavorites = new Set(favorites)
+    e.stopPropagation()
+    if (updatedFavorites.has(id)) {
+        updatedFavorites.delete(id)
+    } else {
+        updatedFavorites.add(id)
+    }
+    setFavorites(updatedFavorites)
+  }
     
     function updateCart(item) {
       setCartItems(prev => {
@@ -32,10 +43,10 @@ function App() {
   const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
   return (
     <>
-          <Header cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems} notification={notification} setNotification={setNotification}/>
+          <Header cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems} notification={notification} setNotification={setNotification} removeFromCart={removeFromCart}/>
           <Routes>
-            <Route path="/" element={<LandingPage updateCart={updateCart} cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems}/>} />
-            <Route path="/products/:Id" element={<ProductDetails updateCart={updateCart} cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems}/>} />
+            <Route path="/" element={<LandingPage updateCart={updateCart}/>} />
+            <Route path="/products/:Id" element={<ProductDetails updateCart={updateCart}/>} />
           </Routes>
       </>
   )

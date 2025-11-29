@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Notification from './Notification'
 
-function Header({cartNumber, cartTotal, cartItems, notification, setNotification}) {
+function Header({cartNumber, cartTotal, cartItems, notification, setNotification, removeFromCart}) {
     const [isActive, setIsActive] = useState(false)
 
     
@@ -27,7 +27,7 @@ function Header({cartNumber, cartTotal, cartItems, notification, setNotification
                             <h4>{ci.name}</h4>
                             <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
                           </div>
-                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
+                          <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button>
                         </div>
                       ))
                     )}
