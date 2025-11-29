@@ -1,8 +1,46 @@
 import React from 'react'
+import { useState } from 'react'
 
-function Header({cartNumber}) {
+function Header({cartNumber, cartTotal, cartItems}) {
+    const [isActive, setIsActive] = useState(false)
   return (
     <>
+              {/* Cart Sidebar */}
+        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
+            <div className="cart-sidebar">
+                <div className="cart-header">
+                    <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
+                    <button className="close-cart" onClick={() => setIsActive(false)}>×</button>
+                </div>
+                
+                <div className="cart-items" id="cartItems">
+                    {cartItems.length === 0 ? (
+                      <p className="empty-cart">Your cart is empty</p>
+                    ) : (
+                      cartItems.map(ci => (
+                        <div className="cart-item" key={ci.id}>
+                          <img src={ci.image} alt={ci.name} />
+                          <div className='item-details'>
+                            <h4>{ci.name}</h4>
+                            <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
+                          </div>
+                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
+                        </div>
+                      ))
+                    )}
+                </div>
+                
+                <div className="cart-footer">
+                    <div className="cart-total">
+                        <strong>Total: $<span id="cartTotal">{cartTotal}</span></strong>
+                    </div>
+                    <button className="checkout-btn">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+
         {/* Bootstrap Navbar - Fixed */}
       <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
         <div className="container-fluid">
@@ -27,7 +65,7 @@ function Header({cartNumber}) {
             <button 
                 className="btn btn-link text-decoration-none p-2 position-relative" 
                 style={{color: 'var(--background-color)'}}
-                // onClick={() => setIsActive(true)}
+                onClick={() => setIsActive(true)}
             >
                 🛒
                 {cartNumber > 0 && (
@@ -71,7 +109,7 @@ function Header({cartNumber}) {
               <button 
                   className="btn btn-link text-decoration-none p-2 position-relative" 
                   style={{color: 'var(--background-color)'}}
-                  // onClick={() => setIsActive(true)}
+                  onClick={() => setIsActive(true)}
               >
                   🛒
                   {cartNumber > 0 && (

@@ -26,7 +26,7 @@ function App() {
   const cartTotal = cartItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0).toFixed(2)
   return (
     <>
-          <Header cartNumber={cartNumber}/>
+          <Header cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems}/>
           <Routes>
             <Route path="/" element={<LandingPage updateCart={updateCart} cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems}/>} />
             <Route path="/products/:Id" element={<ProductDetails updateCart={updateCart} cartNumber={cartNumber} cartTotal={cartTotal} cartItems={cartItems}/>} />

@@ -5,8 +5,7 @@ import Notification from '../pages/Notification'
 import { Link } from 'react-router'
 import { useEffect } from 'react'
 
-function LandingPage({updateCart, cartNumber, cartTotal, cartItems}) {
-  const [isActive, setIsActive] = useState(false)
+function LandingPage({updateCart}) {
   const [notification, setNotification] = useState(null) 
   const [favorites, setFavorites] = useState(new Set())
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -48,43 +47,7 @@ function LandingPage({updateCart, cartNumber, cartTotal, cartItems}) {
 
   return (
     <>
-        {/* Cart Sidebar */}
-        <div id="cartOverlay" className={`cart-overlay ${isActive ? 'active' : ''}`}>
-            <div className="cart-sidebar">
-                <div className="cart-header">
-                    <h3>Your Cart (<span id="cartCount">{cartNumber}</span>)</h3>
-                    <button className="close-cart" onClick={() => setIsActive(false)}>×</button>
-                </div>
-                
-                <div className="cart-items" id="cartItems">
-                    {cartItems.length === 0 ? (
-                      <p className="empty-cart">Your cart is empty</p>
-                    ) : (
-                      cartItems.map(ci => (
-                        <div className="cart-item" key={ci.id}>
-                          <img src={ci.image} alt={ci.name} />
-                          <div className='item-details'>
-                            <h4>{ci.name}</h4>
-                            <div className="small">Qty: {ci.quantity} • ${ (ci.price * ci.quantity).toFixed(2) }</div>
-                          </div>
-                          {/* <button className="remove-item" onClick={() => removeFromCart(ci.id)}>x</button> */}
-                        </div>
-                      ))
-                    )}
-                </div>
-                
-                <div className="cart-footer">
-                    <div className="cart-total">
-                        <strong>Total: $<span id="cartTotal">{cartTotal}</span></strong>
-                    </div>
-                    <button className="checkout-btn">
-                        Proceed to Checkout
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        {/* Mobile Menu Backdrop */}
+            {/* Mobile Menu Backdrop */}
         <div 
           className={`mobile-backdrop ${isMobileMenuOpen ? 'show' : ''}`}
           onClick={closeMobileMenu}
